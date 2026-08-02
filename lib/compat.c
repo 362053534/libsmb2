@@ -150,7 +150,7 @@ int asprintf(char **strp, const char *fmt, ...)
 
         va_start(args, fmt);
         str = malloc(256);
-        len = sprintf(str, fmt, args);
+        len = vsprintf(str, fmt, args);
         va_end(args);
         *strp = str;
         return len;
