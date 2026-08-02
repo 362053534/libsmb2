@@ -1092,8 +1092,20 @@ smb2_connect_share_async(struct smb2_context *smb2,
                 smb2_set_error(smb2, "Failed to strdup(user)");
                 return -ENOMEM;
         }
+#ifdef _IOP
+        {
+                size_t unc_len = strlen(c_data->server) + strlen(c_data->share) + 4;
+
+                c_data->utf8_unc = malloc(unc_len);
+                if (c_data->utf8_unc)
+                        sprintf(c_data->utf8_unc, "\\\\%s\\%s", c_data->server,
+                                c_data->share);
+        }
+        if (!c_data->utf8_unc) {
+#else
         if (asprintf(&c_data->utf8_unc, "\\\\%s\\%s", c_data->server,
                      c_data->share) < 0) {
+#endif
                 free_c_data(smb2, c_data);
                 smb2_set_error(smb2, "Failed to allocate unc string.");
                 return -ENOMEM;
