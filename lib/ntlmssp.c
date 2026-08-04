@@ -403,7 +403,7 @@ NTOWFv2(const char *user, const char *password, const char *domain,
         }
 
         strcpy(userdomain, user);
-        for (i = strlen(userdomain) - 1; i >= 0; i--) {
+        for (i = (int64_t)strlen(userdomain) - 1; i >= 0; i--) {
                 if (islower((unsigned int) userdomain[i])) {
                         userdomain[i] = toupper((unsigned int) userdomain[i]);
                 }
